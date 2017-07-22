@@ -5,6 +5,9 @@
  */
 package GUI;
 
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jonathan
@@ -32,7 +35,7 @@ public class Reworker extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtEmNo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtEmNo1 = new javax.swing.JTextField();
+        txtEmName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtPass = new javax.swing.JPasswordField();
         btnAdd = new javax.swing.JButton();
@@ -51,8 +54,18 @@ public class Reworker extends javax.swing.JFrame {
         jLabel3.setText("Password");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -71,7 +84,7 @@ public class Reworker extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtEmNo1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                            .addComponent(txtEmName, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                             .addComponent(txtPass))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -91,7 +104,7 @@ public class Reworker extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtEmNo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -122,6 +135,42 @@ public class Reworker extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        if (txtEmName.getText().length() != 0 && txtEmNo.getText().length() != 0 && txtPass.getPassword().length != 0){
+            BaseDatos.Acceso cc = new BaseDatos.Acceso();
+            Connection cn = cc.conexion();
+
+            try {
+                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Rework values (?,?,?,?)");
+                pst.setString(1, txtEmNo.getText());
+                pst.setString(2, txtEmName.getText());
+                pst.setInt(3, 1);
+                pst.setString(4, new String(txtPass.getPassword()));
+
+                int upd = pst.executeUpdate();
+                if (upd > 0){
+                    JOptionPane.showMessageDialog(null, "Updated Registry");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+            } catch (Exception e) {
+            }
+            txtEmNo.setText("");
+            txtEmName.setText("");
+            txtPass.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,8 +216,8 @@ public class Reworker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtEmName;
     private javax.swing.JTextField txtEmNo;
-    private javax.swing.JTextField txtEmNo1;
     private javax.swing.JPasswordField txtPass;
     // End of variables declaration//GEN-END:variables
 }

@@ -141,7 +141,7 @@ public class ReworkUI extends javax.swing.JFrame {
         });
         jMenu1.add(btnProdNo);
 
-        btnArea.setText("Add new Area");
+        btnArea.setText("Add new Department");
         btnArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAreaActionPerformed(evt);
@@ -201,8 +201,8 @@ public class ReworkUI extends javax.swing.JFrame {
 
     private void btnAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAreaActionPerformed
         // TODO add your handling code here:
-        GUI.Area Agui = new GUI.Area();
-        Agui.setVisible(true);
+        GUI.Department Dgui = new GUI.Department();
+        Dgui.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAreaActionPerformed
 

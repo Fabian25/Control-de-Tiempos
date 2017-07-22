@@ -5,6 +5,9 @@
  */
 package GUI;
 
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jonathan
@@ -51,8 +54,18 @@ public class Technician extends javax.swing.JFrame {
         jLabel3.setText("Password");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,6 +136,42 @@ public class Technician extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        if (txtEmNo1.getText().length() != 0 && txtEmNo.getText().length() != 0 && txtPass.getPassword().length != 0){
+            BaseDatos.Acceso cc = new BaseDatos.Acceso();
+            Connection cn = cc.conexion();
+
+            try {
+                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Tecnico values (?,?,?,?)");
+                pst.setString(1, txtEmNo.getText());
+                pst.setString(2, txtEmNo1.getText());
+                pst.setInt(3, 1);
+                pst.setString(4, new String(txtPass.getPassword()));
+
+                int upd = pst.executeUpdate();
+                if (upd > 0){
+                    JOptionPane.showMessageDialog(null, "Updated Registry");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+            } catch (Exception e) {
+            }
+            txtEmNo.setText("");
+            txtEmNo1.setText("");
+            txtPass.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
