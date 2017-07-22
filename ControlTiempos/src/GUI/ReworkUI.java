@@ -141,7 +141,7 @@ public class ReworkUI extends javax.swing.JFrame {
         });
         jMenu1.add(btnProdNo);
 
-        btnArea.setText("Add new Area");
+        btnArea.setText("Add new Department");
         btnArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAreaActionPerformed(evt);
@@ -182,6 +182,7 @@ public class ReworkUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         GUI.Technician Tgui = new GUI.Technician();
         Tgui.setVisible(true);
+        Tgui.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnTechActionPerformed
 
@@ -189,6 +190,7 @@ public class ReworkUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         GUI.Reworker Rgui = new GUI.Reworker();
         Rgui.setVisible(true);
+        Rgui.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnRwkActionPerformed
 
@@ -196,13 +198,15 @@ public class ReworkUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         GUI.ProdNo Pgui = new GUI.ProdNo();
         Pgui.setVisible(true);
+        Pgui.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnProdNoActionPerformed
 
     private void btnAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAreaActionPerformed
         // TODO add your handling code here:
-        GUI.Area Agui = new GUI.Area();
-        Agui.setVisible(true);
+        GUI.Department Dgui = new GUI.Department();
+        Dgui.setVisible(true);
+        Dgui.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnAreaActionPerformed
 

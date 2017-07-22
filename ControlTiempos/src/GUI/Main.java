@@ -11,13 +11,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.swing.JOptionPane;
+import Classes.Gestor;
 /**
  *
  * @author Jonathan
  */
 public class Main extends javax.swing.JFrame {
 
+     Gestor gestor = new Gestor();
     /**
      * Creates new form Main
      */
@@ -55,6 +57,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnRework.setText("Log as Reworker");
+        btnRework.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReworkActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,8 +108,15 @@ public class Main extends javax.swing.JFrame {
 
     private void btnTechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTechActionPerformed
         // TODO add your handling code here:
-        
+        gestor.LogTech(txtuser, txtpass);
+        this.dispose();
     }//GEN-LAST:event_btnTechActionPerformed
+
+    private void btnReworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReworkActionPerformed
+        // TODO add your handling code here:
+         gestor.LogRWK(txtuser, txtpass);
+         this.dispose();
+    }//GEN-LAST:event_btnReworkActionPerformed
 
     /**
      * @param args the command line arguments

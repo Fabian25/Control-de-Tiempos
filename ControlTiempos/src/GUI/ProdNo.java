@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package GUI;
+import Classes.Gestor;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,6 +14,7 @@ package GUI;
  */
 public class ProdNo extends javax.swing.JFrame {
 
+    Gestor gestor = new Gestor();
     /**
      * Creates new form Area
      */
@@ -31,7 +35,7 @@ public class ProdNo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         cmbArea = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        txtArea = new javax.swing.JTextField();
+        txtProd = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -44,8 +48,18 @@ public class ProdNo extends javax.swing.JFrame {
         jLabel2.setText("Prod No");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,7 +82,7 @@ public class ProdNo extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtArea)))
+                        .addComponent(txtProd)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -80,7 +94,7 @@ public class ProdNo extends javax.swing.JFrame {
                     .addComponent(cmbArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -108,6 +122,16 @@ public class ProdNo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        gestor.AddProdNo(cmbArea, txtProd);
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,6 +176,6 @@ public class ProdNo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtArea;
+    private javax.swing.JTextField txtProd;
     // End of variables declaration//GEN-END:variables
 }

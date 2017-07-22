@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package GUI;
+import Classes.Gestor;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,6 +14,7 @@ package GUI;
  */
 public class Technician extends javax.swing.JFrame {
 
+    Gestor gestor = new Gestor();
     /**
      * Creates new form Technician
      */
@@ -51,8 +55,18 @@ public class Technician extends javax.swing.JFrame {
         jLabel3.setText("Password");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,6 +137,16 @@ public class Technician extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        gestor.AddTechnician(txtEmNo1, txtEmNo, txtPass);
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
