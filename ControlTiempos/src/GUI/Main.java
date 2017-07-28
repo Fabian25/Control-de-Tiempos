@@ -109,13 +109,11 @@ public class Main extends javax.swing.JFrame {
     private void btnTechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTechActionPerformed
         // TODO add your handling code here:
         gestor.LogTech(txtuser, txtpass);
-        this.dispose();
     }//GEN-LAST:event_btnTechActionPerformed
 
     private void btnReworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReworkActionPerformed
         // TODO add your handling code here:
          gestor.LogRWK(txtuser, txtpass);
-         this.dispose();
     }//GEN-LAST:event_btnReworkActionPerformed
 
     /**

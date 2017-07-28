@@ -17,6 +17,7 @@ public class ControlTiempos {
     public static void main(String[] args) {
         // TODO code application logic here
         GUI.Main main = new GUI.Main();
+        main.setLocationRelativeTo(null);
         main.setVisible(true);
     }
     

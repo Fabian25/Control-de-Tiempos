@@ -145,6 +145,9 @@ public class Reworker extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        Main m = new Main();
+        m.setLocationRelativeTo(null);
+        m.setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**

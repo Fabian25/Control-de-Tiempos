@@ -5,17 +5,21 @@
  */
 package GUI;
 
+import Classes.Gestor;
+
 /**
  *
  * @author Jonathan
  */
 public class TechnicianUI extends javax.swing.JFrame {
 
+    Gestor gestor = new Gestor();
     /**
      * Creates new form TechnicianUI
      */
     public TechnicianUI() {
         initComponents();
+        gestor.LoadTech(CmbTech, cmbProdNo, cmbRtype);
     }
 
     /**
@@ -34,27 +38,40 @@ public class TechnicianUI extends javax.swing.JFrame {
         txtSerialNo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        cmbProdNo1 = new javax.swing.JComboBox<>();
+        cmbRtype = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        txtComment = new javax.swing.JTextArea();
+        btnsave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Technician");
 
+        CmbTech.setEditable(true);
+
         jLabel2.setText("Prod No");
+
+        cmbProdNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbProdNoActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Serial No");
 
         jLabel4.setText("Rework Type");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtComment.setColumns(20);
+        txtComment.setRows(5);
+        jScrollPane1.setViewportView(txtComment);
 
-        jButton1.setText("Save");
+        btnsave.setText("Save");
+        btnsave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsaveActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -86,11 +103,11 @@ public class TechnicianUI extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cmbProdNo1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cmbRtype, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
-                        .addComponent(jButton1)
+                        .addComponent(btnsave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancel)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -113,13 +130,13 @@ public class TechnicianUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(cmbProdNo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbRtype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
-                    .addComponent(jButton1))
+                    .addComponent(btnsave))
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
@@ -130,6 +147,16 @@ public class TechnicianUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
+        // TODO add your handling code here:
+        gestor.SaveTech(CmbTech, cmbProdNo, cmbRtype, txtSerialNo, txtComment);
+        this.dispose();
+    }//GEN-LAST:event_btnsaveActionPerformed
+
+    private void cmbProdNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProdNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbProdNoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,15 +196,15 @@ public class TechnicianUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CmbTech;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnsave;
     private javax.swing.JComboBox<String> cmbProdNo;
-    private javax.swing.JComboBox<String> cmbProdNo1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> cmbRtype;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtComment;
     private javax.swing.JTextField txtSerialNo;
     // End of variables declaration//GEN-END:variables
 }

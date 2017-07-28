@@ -5,16 +5,21 @@
  */
 package Classes;
 
+import GUI.Main;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -24,7 +29,11 @@ import javax.swing.JTextField;
 public class Gestor {
     
     BaseDatos.Acceso cc = new BaseDatos.Acceso();
-    public static ArrayList arrBU = new ArrayList();
+    DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Calendar cal1 = Calendar.getInstance();
+    String datetime = cal1.get(Calendar.YEAR) + "-" + cal1.get(Calendar.MONTH) + "-" + cal1.get(Calendar.DAY_OF_MONTH) +" " + cal1.get(Calendar.HOUR) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND);
+   
+    public static String numberlogin;
     
     public void AddReworker (JTextField txtEmName, JTextField txtEmNo, JPasswordField txtPass){
         if (txtEmName.getText().length() != 0 && txtEmNo.getText().length() != 0 && txtPass.getPassword().length != 0){
@@ -55,16 +64,17 @@ public class Gestor {
         }
     }
     
-    public void AddTechnician (JTextField txtEmNo1, JTextField txtEmNo, JPasswordField txtPass){
+    public void AddTechnician (JTextField txtEmNo1, JTextField txtEmNo, JPasswordField txtPass, JTextField txtDep){
         if (txtEmNo1.getText().length() != 0 && txtEmNo.getText().length() != 0 && txtPass.getPassword().length != 0){
             Connection cn = cc.conexion();
 
             try {
-                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Tecnico values (?,?,?,?)");
+                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Tecnico values (?,?,?,?,?)");
                 pst.setString(1, txtEmNo.getText());
                 pst.setString(2, txtEmNo1.getText());
                 pst.setInt(3, 1);
                 pst.setString(4, new String(txtPass.getPassword()));
+                pst.setString(5, txtDep.getText());
 
                 int upd = pst.executeUpdate();
                 if (upd > 0){
@@ -84,15 +94,14 @@ public class Gestor {
         }
     }
     
-    public void AddProdNo(JComboBox cmbArea, JTextField txtProd){
-        if (cmbArea.getSelectedIndex() >= 0 && txtProd.getText().length() == 0){
+    public void AddProdNo(JComboBox cmbDep, JTextField txtProd){
+        if (cmbDep.getSelectedIndex() >= 0 && txtProd.getText().length() != 0){
             Connection cn = cc.conexion();
 
             try {
                 java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.ProdNo values (?,?)");
-                pst.setString(1, cmbArea.getSelectedItem().toString());
-                pst.setString(2, txtProd.getText());
-
+                pst.setString(1, txtProd.getText());
+                pst.setString(2, cmbDep.getSelectedItem().toString());
                 int upd = pst.executeUpdate();
                 if (upd > 0){
                     JOptionPane.showMessageDialog(null, "Updated Registry");
@@ -114,9 +123,10 @@ public class Gestor {
             Connection cn = cc.conexion();
 
             try {
-                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Rework values (?,?)");
-                pst.setString(1, cmbArea.getSelectedItem().toString());
-                pst.setString(2, txtDep.getText());
+                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Departamento values (?,?)");
+                pst.setString(1, txtDep.getText());
+                pst.setString(2, cmbArea.getSelectedItem().toString());
+                
 
                 int upd = pst.executeUpdate();
                 if (upd > 0){
@@ -152,9 +162,10 @@ public class Gestor {
                 }
                 if (datos[0] != null){
                     if (datos[0].equals(txtuser.getText()) && datos[3].equals(pass)){
-                    GUI.TechnicianUI tui = new GUI.TechnicianUI();
-                    tui.setLocationRelativeTo(null);
-                    tui.setVisible(true);
+                        numberlogin = datos[0];
+                        GUI.TechnicianUI tui = new GUI.TechnicianUI();
+                        tui.setLocationRelativeTo(null);
+                        tui.setVisible(true);
                     }
                 }
                 else {
@@ -184,9 +195,10 @@ public class Gestor {
                 }
                 if (datos[0] != null){
                     if (datos[0].equals(txtuser.getText()) && datos[3].equals(pass)){
-                    GUI.ReworkUI rui = new GUI.ReworkUI();
-                    rui.setLocationRelativeTo(null);
-                    rui.setVisible(true);
+                        numberlogin = datos[0];
+                        GUI.ReworkUI rui = new GUI.ReworkUI();
+                        rui.setLocationRelativeTo(null);
+                        rui.setVisible(true);
                     }
                 }
                 else {
@@ -198,7 +210,7 @@ public class Gestor {
         }
     }
     
-    public void BussinesUnit () {
+    public void BussinesUnit (JComboBox cmbBU) {
         Connection cn= cc.conexion();
         String sql = "Select * from Rework.BusinessUnit";
         String datos = new String();
@@ -208,9 +220,105 @@ public class Gestor {
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()) {
                 datos=rs.getString(1);
-                arrBU.add(datos);
+                cmbBU.addItem(datos);
             }
         } catch (SQLException ex) {
         }
     }
+
+    public void AreaBU(JComboBox cmbArea, JComboBox cmbBu){
+        Connection cn= cc.conexion();
+        String sql = "Select ara_Id from Rework.Area where bu_Id = '" + cmbBu.getSelectedItem().toString() + "'";
+        String datos = new String();
+        cmbArea.removeAllItems();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()) {
+                datos=rs.getString(1);
+                cmbArea.addItem(datos);
+            }
+        } catch (SQLException ex) {
+        }
+    }
+    
+    public void depPN (JComboBox cmbDep){
+        Connection cn= cc.conexion();
+        String sql = "Select * from Rework.Departamento";
+        String datos = new String();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()) {
+                datos=rs.getString(1);
+                cmbDep.addItem(datos);
+            }
+        } catch (SQLException ex) {
+        }
+    }
+    
+    public void LoadTech (JComboBox cmbTech, JComboBox cmbProdNo, JComboBox cmbRType){
+        cmbTech.addItem(numberlogin);
+        
+        Connection cn= cc.conexion();
+        String sql = "SELECT PN.idProdNo FROM Rework.ProdNo PN, Rework.Tecnico T where T.tec_dep = PN.dep_Id and T.tec_Id = '" + numberlogin + "';";
+        String datos = new String();
+        cmbProdNo.removeAllItems();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()) {
+                datos=rs.getString(1);
+                cmbProdNo.addItem(datos);
+            }
+        } catch (SQLException ex) {
+        }
+        
+        sql = "SELECT * FROM Rework.ReworkType;";
+        datos = new String();
+        cmbRType.removeAllItems();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()) {
+                datos=rs.getString(1);
+                cmbRType.addItem(datos);
+            }
+        } catch (SQLException ex) {
+        }
+    }
+    
+    public void SaveTech (JComboBox cmbTech, JComboBox cmbProdNo, JComboBox cmbRType,JTextField txtSerie, JTextArea txtComment){
+        
+        if (cmbProdNo.getSelectedIndex() >= 0 && cmbRType.getSelectedIndex() >= 0 && txtSerie.getText().length() != 0 && txtComment.getText().length() != 0){
+            Connection cn = cc.conexion();
+
+            try {
+                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Reporte values (?,?,?,?,?,?,?,?,?,?)");
+                pst.setString(1, null);
+                pst.setString(2, numberlogin);
+                pst.setString(3, cmbProdNo.getSelectedItem().toString());
+                pst.setString(4, txtSerie.getText());
+                pst.setString(5, cmbRType.getSelectedItem().toString());
+                pst.setString(6, txtComment.getText());
+                pst.setString(7, null);
+                pst.setString(8, datetime);
+                pst.setString(9, null);
+                pst.setString(10, null);
+                int upd = pst.executeUpdate();
+                if (upd > 0){
+                    JOptionPane.showMessageDialog(null, "Updated Registry");
+                }
+                else {
+                    
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error");
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+        }
+    }
+
 }

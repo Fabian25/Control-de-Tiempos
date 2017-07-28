@@ -7,6 +7,7 @@ package GUI;
 import Classes.Gestor;
 import java.awt.Component;
 import java.sql.Connection;
+import javafx.scene.chart.BubbleChart;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,16 +17,12 @@ import javax.swing.JOptionPane;
 public class Department extends javax.swing.JFrame {
 
     Gestor gestor = new Gestor();
-    
     /**
      * Creates new form Area
      */
     public Department() {
         initComponents();
-        gestor.BussinesUnit();
-        for (int i  = 0; i < Gestor.arrBU.size(); i++){
-            cmbBU.add((Component) Gestor.arrBU.get(i));
-        }
+        gestor.BussinesUnit(cmbBU);
     }
 
     /**
@@ -53,6 +50,12 @@ public class Department extends javax.swing.JFrame {
 
         jLabel1.setText("Bussines Unit");
 
+        cmbBU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBUActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Department");
 
         jLabel3.setText("Area");
@@ -65,6 +68,11 @@ public class Department extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -139,6 +147,19 @@ public class Department extends javax.swing.JFrame {
         // TODO add your handling code here:
         gestor.AddDepartment(cmbBU, cmbArea, txtDep);
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void cmbBUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBUActionPerformed
+        // TODO add your handling code here:
+        gestor.AreaBU(cmbArea, cmbBU);
+    }//GEN-LAST:event_cmbBUActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        Main m = new Main();
+        m.setLocationRelativeTo(null);
+        m.setVisible(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
