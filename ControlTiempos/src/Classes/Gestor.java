@@ -19,8 +19,10 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,8 +33,7 @@ public class Gestor {
     BaseDatos.Acceso cc = new BaseDatos.Acceso();
     DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Calendar cal1 = Calendar.getInstance();
-    String datetime = cal1.get(Calendar.YEAR) + "-" + cal1.get(Calendar.MONTH) + "-" + cal1.get(Calendar.DAY_OF_MONTH) +" " + cal1.get(Calendar.HOUR) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND);
-   
+    String datetime = cal1.get(Calendar.YEAR) + "-" + cal1.get(Calendar.MONTH) + "-" + cal1.get(Calendar.DAY_OF_MONTH) +" " + cal1.get(Calendar.HOUR) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND);    
     public static String numberlogin;
     
     public void AddReworker (JTextField txtEmName, JTextField txtEmNo, JPasswordField txtPass){
@@ -214,7 +215,6 @@ public class Gestor {
         Connection cn= cc.conexion();
         String sql = "Select * from Rework.BusinessUnit";
         String datos = new String();
-        
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -321,4 +321,52 @@ public class Gestor {
         }
     }
 
+    public void LoadRwk (JTable tableG){
+        
+        Connection cn= cc.conexion();
+        String sql = "SELECT * FROM Rework.Reporte;";
+        
+        String [] columnas = {"Id","Technician", "Prod No", "Serial No", "Rwk Type", "Description", "Reworker", "Idle_STime", "Act_STime", "Act_ETime" };
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+            
+        };
+      
+        String datos[] = new String[10];
+        Object [] fila=new Object[10];
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()) {
+                datos[0]=rs.getString(1);
+                fila[0] = datos [0];
+                datos[1]=rs.getString(2);
+                fila[1] = datos [1];
+                datos[2]=rs.getString(3);
+                fila[2] = datos [2];
+                datos[3]=rs.getString(4);
+                fila[3] = datos [3];
+                datos[4]=rs.getString(5);
+                fila[4] = datos [4];
+                datos[5]=rs.getString(6);
+                fila[5] = datos [5];
+                datos[6]=rs.getString(7);
+                fila[6] = datos [6];
+                datos[7]=rs.getString(8);
+                fila[7] = datos [7];
+                datos[8]=rs.getString(9);
+                fila[8] = datos [8];
+                datos[9]=rs.getString(10);
+                fila[9] = datos [9];
+                modelo.addRow(fila);
+                
+                tableG.setModel(modelo);
+                
+            }
+        } catch (SQLException ex) {
+        }
+    }
 }

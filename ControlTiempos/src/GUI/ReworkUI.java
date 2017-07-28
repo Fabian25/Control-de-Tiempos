@@ -5,17 +5,23 @@
  */
 package GUI;
 
+import Classes.Gestor;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jonathan
  */
 public class ReworkUI extends javax.swing.JFrame {
-
+Gestor gestor = new Gestor();
+DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form Main
      */
     public ReworkUI() {
         initComponents();
+        gestor.LoadRwk(tableG);
     }
 
     /**
@@ -28,14 +34,14 @@ public class ReworkUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableG = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cmbrework = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        cmbserialno = new javax.swing.JComboBox<>();
         btnSAT = new javax.swing.JButton();
         btnEAT = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnTech = new javax.swing.JMenuItem();
@@ -45,12 +51,9 @@ public class ReworkUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "#", "Technician", "Prod No", "Serial No", "Rework Type", "Description", "Reworker", "Idle Start Time", "Star Activity Time", "End Activity Time"
@@ -64,7 +67,12 @@ public class ReworkUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tableG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableGMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableG);
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -73,38 +81,48 @@ public class ReworkUI extends javax.swing.JFrame {
         jLabel2.setText("Serial Number");
 
         btnSAT.setText("Start Activity Time");
+        btnSAT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSATActionPerformed(evt);
+            }
+        });
 
         btnEAT.setText("End Activity Time");
+        btnEAT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEATActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmbserialno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cmbrework, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(43, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEAT)
                     .addComponent(btnSAT))
                 .addGap(42, 42, 42))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbrework, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbserialno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -210,6 +228,18 @@ public class ReworkUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAreaActionPerformed
 
+    private void btnSATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSATActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSATActionPerformed
+
+    private void btnEATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEATActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEATActionPerformed
+
+    private void tableGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableGMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableGMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -254,13 +284,13 @@ public class ReworkUI extends javax.swing.JFrame {
     private javax.swing.JButton btnSAT;
     private javax.swing.JMenuItem btnTech;
     private javax.swing.JComboBox<String> cmbrework;
-    private javax.swing.JComboBox<String> cmbserialno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tableG;
     // End of variables declaration//GEN-END:variables
 }
