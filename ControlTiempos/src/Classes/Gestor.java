@@ -321,8 +321,8 @@ public class Gestor {
         }
     }
 
-    public void LoadRwk (JTable tableG){
-        
+    public void LoadRwk (JTable tableG, JComboBox cmbReworker){
+        cmbReworker.addItem(numberlogin);
         Connection cn= cc.conexion();
         String sql = "SELECT * FROM Rework.Reporte;";
         
@@ -341,32 +341,78 @@ public class Gestor {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()) {
-                datos[0]=rs.getString(1);
-                fila[0] = datos [0];
-                datos[1]=rs.getString(2);
-                fila[1] = datos [1];
-                datos[2]=rs.getString(3);
-                fila[2] = datos [2];
-                datos[3]=rs.getString(4);
-                fila[3] = datos [3];
-                datos[4]=rs.getString(5);
-                fila[4] = datos [4];
-                datos[5]=rs.getString(6);
-                fila[5] = datos [5];
-                datos[6]=rs.getString(7);
-                fila[6] = datos [6];
-                datos[7]=rs.getString(8);
-                fila[7] = datos [7];
-                datos[8]=rs.getString(9);
-                fila[8] = datos [8];
-                datos[9]=rs.getString(10);
-                fila[9] = datos [9];
-                modelo.addRow(fila);
-                
-                tableG.setModel(modelo);
-                
+                if (rs.getString(10) == null){
+                    datos[0]=rs.getString(1);
+                    fila[0] = datos [0];
+                    datos[1]=rs.getString(2);
+                    fila[1] = datos [1];
+                    datos[2]=rs.getString(3);
+                    fila[2] = datos [2];
+                    datos[3]=rs.getString(4);
+                    fila[3] = datos [3];
+                    datos[4]=rs.getString(5);
+                    fila[4] = datos [4];
+                    datos[5]=rs.getString(6);
+                    fila[5] = datos [5];
+                    datos[6]=rs.getString(7);
+                    fila[6] = datos [6];
+                    datos[7]=rs.getString(8);
+                    fila[7] = datos [7];
+                    datos[8]=rs.getString(9);
+                    fila[8] = datos [8];
+                    datos[9]=rs.getString(10);
+                    fila[9] = datos [9];
+                    modelo.addRow(fila);
+                    tableG.setModel(modelo);
+                }
             }
         } catch (SQLException ex) {
         }
+    }
+    
+    public void SAT(int id){
+        if (id != 0){
+            Connection cn = cc.conexion();
+            try {
+                java.sql.PreparedStatement pst = cn.prepareStatement("Update Rework.Reporte Set rwk_Id = ?, Idle_E_A_S_Time = ? Where idReporte = ?;");
+                pst.setString(1, numberlogin);
+                pst.setString(2, datetime);
+                pst.setString(3, String.valueOf(id));
+                int upd = pst.executeUpdate();
+                if (upd > 0){
+                    JOptionPane.showMessageDialog(null, "Updated Registry");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+            } catch (Exception e) {
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+    }
+    
+    public void EAT(int id){
+        if (id != 0){
+            Connection cn = cc.conexion();
+            try {
+                java.sql.PreparedStatement pst = cn.prepareStatement("Update Rework.Reporte Set Activity_E_Time = ? Where idReporte = ?;");
+                pst.setString(1, datetime);
+                pst.setString(2, String.valueOf(id));
+                int upd = pst.executeUpdate();
+                if (upd > 0){
+                    JOptionPane.showMessageDialog(null, "Updated Registry");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+            } catch (Exception e) {
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+        
     }
 }

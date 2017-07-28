@@ -6,6 +6,7 @@
 package GUI;
 
 import Classes.Gestor;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +22,7 @@ DefaultTableModel modelo = new DefaultTableModel();
      */
     public ReworkUI() {
         initComponents();
-        gestor.LoadRwk(tableG);
+        gestor.LoadRwk(tableG, cmbrework);
     }
 
     /**
@@ -41,7 +42,8 @@ DefaultTableModel modelo = new DefaultTableModel();
         jLabel2 = new javax.swing.JLabel();
         btnSAT = new javax.swing.JButton();
         btnEAT = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtSerie = new javax.swing.JTextField();
+        btnSAT1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnTech = new javax.swing.JMenuItem();
@@ -78,6 +80,8 @@ DefaultTableModel modelo = new DefaultTableModel();
 
         jLabel1.setText("Reworker");
 
+        cmbrework.setEditable(true);
+
         jLabel2.setText("Serial Number");
 
         btnSAT.setText("Start Activity Time");
@@ -94,40 +98,54 @@ DefaultTableModel modelo = new DefaultTableModel();
             }
         });
 
+        txtSerie.setEditable(false);
+
+        btnSAT1.setText("Select Board");
+        btnSAT1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSAT1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEAT)
-                    .addComponent(btnSAT))
-                .addGap(42, 42, 42))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmbrework, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                            .addComponent(cmbrework, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtSerie, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 37, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnEAT)
+                            .addComponent(btnSAT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSAT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(42, 42, 42))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(7, 7, 7)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbrework, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSAT1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSAT)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEAT))
@@ -190,7 +208,7 @@ DefaultTableModel modelo = new DefaultTableModel();
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(121, 121, 121))
+                .addGap(88, 88, 88))
         );
 
         pack();
@@ -230,15 +248,31 @@ DefaultTableModel modelo = new DefaultTableModel();
 
     private void btnSATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSATActionPerformed
         // TODO add your handling code here:
+        gestor.SAT(Integer.parseInt(tableG.getValueAt(tableG.getSelectedRow(), 0).toString()));
+        gestor.LoadRwk(tableG, cmbrework);
+        this.dispose();
     }//GEN-LAST:event_btnSATActionPerformed
 
     private void btnEATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEATActionPerformed
         // TODO add your handling code here:
+        gestor.EAT(Integer.parseInt(tableG.getValueAt(tableG.getSelectedRow(), 0).toString()));
+        gestor.LoadRwk(tableG, cmbrework);
+        this.dispose();
     }//GEN-LAST:event_btnEATActionPerformed
 
     private void tableGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableGMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tableGMouseClicked
+
+    private void btnSAT1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSAT1ActionPerformed
+        // TODO add your handling code here:
+        if (tableG.getValueAt(tableG.getSelectedRow(), 1) != null){
+            txtSerie.setText(String.valueOf(tableG.getValueAt(tableG.getSelectedRow(), 1)));
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Please select a board from the Table");
+        }
+    }//GEN-LAST:event_btnSAT1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,6 +316,7 @@ DefaultTableModel modelo = new DefaultTableModel();
     private javax.swing.JMenuItem btnProdNo;
     private javax.swing.JMenuItem btnRwk;
     private javax.swing.JButton btnSAT;
+    private javax.swing.JButton btnSAT1;
     private javax.swing.JMenuItem btnTech;
     private javax.swing.JComboBox<String> cmbrework;
     private javax.swing.JLabel jLabel1;
@@ -290,7 +325,7 @@ DefaultTableModel modelo = new DefaultTableModel();
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tableG;
+    private javax.swing.JTextField txtSerie;
     // End of variables declaration//GEN-END:variables
 }
