@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package GUI;
-
+import Classes.Gestor;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 
@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class Reworker extends javax.swing.JFrame {
 
+    Gestor gestor = new Gestor();
     /**
      * Creates new form Technician
      */
@@ -43,7 +44,7 @@ public class Reworker extends javax.swing.JFrame {
 
         jButton1.setText("jButton1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -138,38 +139,15 @@ public class Reworker extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if (txtEmName.getText().length() != 0 && txtEmNo.getText().length() != 0 && txtPass.getPassword().length != 0){
-            BaseDatos.Acceso cc = new BaseDatos.Acceso();
-            Connection cn = cc.conexion();
-
-            try {
-                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Rework values (?,?,?,?)");
-                pst.setString(1, txtEmNo.getText());
-                pst.setString(2, txtEmName.getText());
-                pst.setInt(3, 1);
-                pst.setString(4, new String(txtPass.getPassword()));
-
-                int upd = pst.executeUpdate();
-                if (upd > 0){
-                    JOptionPane.showMessageDialog(null, "Updated Registry");
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-            } catch (Exception e) {
-            }
-            txtEmNo.setText("");
-            txtEmName.setText("");
-            txtPass.setText("");
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Please fill all the fields");
-        }
+        gestor.AddReworker(txtEmName, txtEmNo, txtPass);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        Main m = new Main();
+        m.setLocationRelativeTo(null);
+        m.setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**

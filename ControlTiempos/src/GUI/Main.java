@@ -12,13 +12,14 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+import Classes.Gestor;
 /**
  *
  * @author Jonathan
  */
 public class Main extends javax.swing.JFrame {
 
+     Gestor gestor = new Gestor();
     /**
      * Creates new form Main
      */
@@ -41,6 +42,7 @@ public class Main extends javax.swing.JFrame {
         txtpass = new javax.swing.JPasswordField();
         btnTech = new javax.swing.JButton();
         btnRework = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +61,13 @@ public class Main extends javax.swing.JFrame {
         btnRework.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReworkActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("See reports");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -81,7 +90,10 @@ public class Main extends javax.swing.JFrame {
                         .addGap(55, 55, 55)
                         .addComponent(btnTech)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRework)))
+                        .addComponent(btnRework))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jButton1)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,7 +111,9 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTech)
                     .addComponent(btnRework))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();
@@ -107,73 +121,24 @@ public class Main extends javax.swing.JFrame {
 
     private void btnTechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTechActionPerformed
         // TODO add your handling code here:
-        if (txtuser.getText().length() == 0 || txtpass.getPassword().length == 0){
-            JOptionPane.showMessageDialog(null, "Please do not left empty textfields");
-        }
-        else {
-            BaseDatos.Acceso cc = new BaseDatos.Acceso();
-            Connection cn= cc.conexion();
-            String pass = new String (txtpass.getPassword());
-            String sql = "SELECT * FROM Rework.Tecnico where tec_Id = " + txtuser.getText() + " and tec_Pass = '" + pass + "';" ;
-            String[] datos = new String[4];
-            try {
-                Statement st = cn.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()) {
-                    datos[0] = rs.getString(1);
-                    datos[3] = rs.getString(4);
-                }
-                if (datos[0] != null){
-                    if (datos[0].equals(txtuser.getText()) && datos[3].equals(pass)){
-                    GUI.TechnicianUI tui = new GUI.TechnicianUI();
-                    tui.setLocationRelativeTo(null);
-                    tui.setVisible(true);
-                    this.dispose();
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Wrong User or password");
-                }
-            } catch (SQLException ex) {
-                   ex.printStackTrace();
-            }
-        }
+        gestor.LogTech(txtuser, txtpass);
+        txtuser.setText("");
+        txtpass.setText("");
     }//GEN-LAST:event_btnTechActionPerformed
 
     private void btnReworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReworkActionPerformed
         // TODO add your handling code here:
-         if (txtuser.getText().length() == 0 || txtpass.getPassword().length == 0){
-            JOptionPane.showMessageDialog(null, "Please do not left empty textfields");
-        }
-        else {
-            BaseDatos.Acceso cc = new BaseDatos.Acceso();
-            Connection cn= cc.conexion();
-            String pass = new String (txtpass.getPassword());
-            String sql = "SELECT * FROM Rework.Rework where rwk_Id = " + txtuser.getText() + " and rwk_Pass = '" + pass + "';" ;
-            String[] datos = new String[4];
-            try {
-                Statement st = cn.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()) {
-                    datos[0] = rs.getString(1);
-                    datos[3] = rs.getString(4);
-                }
-                if (datos[0] != null){
-                    if (datos[0].equals(txtuser.getText()) && datos[3].equals(pass)){
-                    GUI.ReworkUI rui = new GUI.ReworkUI();
-                    rui.setLocationRelativeTo(null);
-                    rui.setVisible(true);
-                    this.dispose();
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Wrong User or password");
-                }
-            } catch (SQLException ex) {
-                   ex.printStackTrace();
-            }
-        }
+         gestor.LogRWK(txtuser, txtpass);
+         txtuser.setText("");
+         txtpass.setText("");
     }//GEN-LAST:event_btnReworkActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        gestor.Reports(txtuser, txtpass);
+        txtuser.setText("");
+        txtpass.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,6 +178,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRework;
     private javax.swing.JButton btnTech;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField txtpass;

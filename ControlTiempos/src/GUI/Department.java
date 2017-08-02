@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package GUI;
-
+import Classes.Gestor;
+import java.awt.Component;
 import java.sql.Connection;
+import javafx.scene.chart.BubbleChart;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,11 +16,13 @@ import javax.swing.JOptionPane;
  */
 public class Department extends javax.swing.JFrame {
 
+    Gestor gestor = new Gestor();
     /**
      * Creates new form Area
      */
     public Department() {
         initComponents();
+        gestor.BussinesUnit(cmbBU);
     }
 
     /**
@@ -40,11 +44,17 @@ public class Department extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setText("Bussines Unit");
+
+        cmbBU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBUActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Department");
 
@@ -58,6 +68,11 @@ public class Department extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -130,30 +145,21 @@ public class Department extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if (cmbBU.getSelectedIndex() >= 0 && cmbArea.getSelectedIndex() >= 0 && txtDep.getText().length() != 0){
-            BaseDatos.Acceso cc = new BaseDatos.Acceso();
-            Connection cn = cc.conexion();
-
-            try {
-                java.sql.PreparedStatement pst = cn.prepareStatement("Insert into Rework.Rework values (?,?)");
-                pst.setString(1, cmbArea.getSelectedItem().toString());
-                pst.setString(2, txtDep.getText());
-
-                int upd = pst.executeUpdate();
-                if (upd > 0){
-                    JOptionPane.showMessageDialog(null, "Updated Registry");
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Error");
-                }
-            } catch (Exception e) {
-            }
-            txtDep.setText("");
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Please fill all the fields");
-        }
+        gestor.AddDepartment(cmbBU, cmbArea, txtDep);
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void cmbBUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBUActionPerformed
+        // TODO add your handling code here:
+        gestor.AreaBU(cmbArea, cmbBU);
+    }//GEN-LAST:event_cmbBUActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        Main m = new Main();
+        m.setLocationRelativeTo(null);
+        m.setVisible(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,6 +192,7 @@ public class Department extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
                 new Department().setVisible(true);
             }
         });
