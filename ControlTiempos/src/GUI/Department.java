@@ -44,7 +44,7 @@ public class Department extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

@@ -46,7 +46,7 @@ public class Technician extends javax.swing.JFrame {
 
         jButton1.setText("jButton1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -93,16 +93,15 @@ public class Technician extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtEmNo1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                             .addComponent(txtPass)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtEmNo, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(27, 27, 27)
-                            .addComponent(txtDep))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEmNo, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(27, 27, 27)
+                        .addComponent(txtDep)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
