@@ -44,7 +44,7 @@ public class TechnicianUI extends javax.swing.JFrame {
         btnsave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabel1.setText("Technician");
 
@@ -146,6 +146,9 @@ public class TechnicianUI extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        Main m = new Main();
+        m.setLocationRelativeTo(null);
+        m.setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed

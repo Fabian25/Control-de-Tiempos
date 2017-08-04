@@ -35,6 +35,7 @@ public class Gestor {
     Calendar cal1 = Calendar.getInstance();
     String datetime = cal1.get(Calendar.YEAR) + "-" + cal1.get(Calendar.MONTH) + "-" + cal1.get(Calendar.DAY_OF_MONTH) +" " + cal1.get(Calendar.HOUR) + ":" + cal1.get(Calendar.MINUTE) + ":" + cal1.get(Calendar.SECOND);    
     public static String numberlogin;
+    public static String status;
     
     public void AddReworker (JTextField txtEmName, JTextField txtEmNo, JPasswordField txtPass){
         if (txtEmName.getText().length() != 0 && txtEmNo.getText().length() != 0 && txtPass.getPassword().length != 0){
@@ -192,6 +193,7 @@ public class Gestor {
                 ResultSet rs = st.executeQuery(sql);
                 while(rs.next()) {
                     datos[0] = rs.getString(1);
+                    status = rs.getString(3);
                     datos[3] = rs.getString(4);
                 }
                 if (datos[0] != null){
@@ -414,5 +416,62 @@ public class Gestor {
             JOptionPane.showMessageDialog(null, "Error");
         }
         
+    }
+    
+    public void Search (JTextArea txtsearch, JTextArea txtResult, int count){
+        if (txtsearch.getText().length() > 0){
+            Connection cn = cc.conexion();
+            String sql = txtsearch.getText();
+            String datos = new String();
+            String data = new String();
+            //select * from rework.rework;
+            try {
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()){
+                    for (int i = 1; i <= count; i++){
+                        datos = rs.getString(i);
+                        data += datos + " | ";
+                    }
+                    data += "\n";
+                }
+                txtResult.append(data);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Please check the SQL Query or the quantity of colums to return");
+            }
+        }
+    }
+    
+    public void Reports (JTextField txtuser, JPasswordField txtpass){
+        if (txtuser.getText().length() == 0 || txtpass.getPassword().length == 0){
+            JOptionPane.showMessageDialog(null, "Please do not left empty textfields");
+        }
+        else {
+            Connection cn= cc.conexion();
+            String pass = new String (txtpass.getPassword());
+            String sql = "SELECT * FROM Rework.Rework where rwk_Id = " + txtuser.getText() + " and rwk_Pass = '" + pass + "' and rwk_status = 2;" ;
+            String[] datos = new String[4];
+            try {
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                while(rs.next()) {
+                    datos[0] = rs.getString(1);
+                    datos[3] = rs.getString(4);
+                }
+                if (datos[0] != null){
+                    if (datos[0].equals(txtuser.getText()) && datos[3].equals(pass)){
+                        numberlogin = datos[0];
+                        GUI.AdministratorSQL admin = new GUI.AdministratorSQL();
+                        admin.setLocationRelativeTo(null);
+                        admin.setVisible(true);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Wrong User or password");
+                }
+            } catch (SQLException ex) {
+                   ex.printStackTrace();
+            }
+        }
     }
 }
